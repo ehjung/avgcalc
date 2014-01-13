@@ -32,8 +32,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development, :test  do
-	gem "cucumber-rails"	
+group :test  do
+	gem "cucumber-rails", require: false	
 end
 
 # Use ActiveModel has_secure_password
