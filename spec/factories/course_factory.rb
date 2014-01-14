@@ -10,5 +10,6 @@ FactoryGirl.define do
 
 	factory :evaluation do 
 		grade 77
+		weight 50
 	end
 end

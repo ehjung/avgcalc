@@ -54,4 +54,31 @@ describe Evaluation do
 		end
 	end
 
+	describe "weight" do
+
+		it "should fail negative weight value" do
+			new_course = create(:course)
+			new_work = create(:work, :courseid => new_course)
+			build(:evaluation, :for => new_work, :weight => -3).should have(1).error_on :weight
+		end 
+
+		it "should fail weight value above 100" do
+			new_course = create(:course)
+			new_work = create(:work, :courseid => new_course)
+			build(:evaluation, :for => new_work, :weight => 324).should have(1).error_on :weight
+		end 
+
+		it "should fail decimal weight value" do
+			new_course = create(:course)
+			new_work = create(:work, :courseid => new_course)
+			build(:evaluation, :for => new_work, :weight => 3.3).should have(1).error_on :weight
+		end 
+
+		it "should be between 0 and 100" do
+			new_course = create(:course)
+			new_work = create(:work, :courseid => new_course)
+			build(:evaluation, :for => new_work).should have(0).error_on :weight
+		end 
+	end
+
 end

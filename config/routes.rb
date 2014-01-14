@@ -53,5 +53,5 @@ Avgcalc::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  resources :courses, :works
+  resources :courses, :works, :evaluations
 end

@@ -4,8 +4,16 @@
 <% @works.each do |work| %>
 	<li><%= work.name %> (<%= work.thetype %>)
 		<ul>
-			<li><%= link_to 'Edit', edit_work_path(:id => work.id) %></li>
-			<li><%= link_to 'Delete', work, method: :delete %></li>
+			<% if Evaluation.where(:for => work.id).exists? %>
+				<li>Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %>
+			<% else %>
+				<li><%= link_to 'Add Grade', new_evaluation_path(:id => work.id, :courseid => work.courseid) %> 
+					<ul>
+						<li><%= link_to 'Edit Work', edit_work_path(:id => work.id, :courseid => work.courseid) %></li>
+						<li><%= link_to 'Delete Work', work, method: :delete %></li>
+					</ul>
+				</li>
+			<% end %>
 		</ul>
 	</li>
 <% end %>

@@ -1,21 +1,16 @@
-class WorksController < ApplicationController
-	def index
-		@courseid = params[:courseid]
-		@works = Work.where(:courseid => @courseid).all
-	end
-
+class EvaluationsController < ApplicationController
 	def new
 		@courseid = params[:courseid]
 		@thetype = params[:thetype]
 		@name = params[:name]
-		@work = Work.new(courseid: @courseid, thetype: @thetype, name: @name)
+		@work = Evaluation.new(courseid: @courseid, thetype: @thetype, name: @name)
 
 		respond_to do |format|
 			format.html
 			format.json { render json: @work }
 		end 
 	end
-
+=begin
 	def create
 		@courseid = params[:courseid]
 		@thetype = params[:thetype]
@@ -53,5 +48,5 @@ class WorksController < ApplicationController
 			end
 		end
 	end
-
+=end 
 end
