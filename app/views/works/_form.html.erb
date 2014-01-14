@@ -1,0 +1,17 @@
+<%= form_for(@work) do |f| %>
+
+<%= f.hidden_field :courseid %>
+
+<%= f.text_field :name %>
+
+<select id="work_thetype" name="work[thetype]">
+	<option value="Test">Test</option>
+	<option value="Quiz">Quiz</option>
+	<option value="Exam">Exam</option>
+	<option value="Assignment">Assignment</option>
+	<option value="Lab">Lab</option>
+</select>
+
+<%= f.submit "Submit" %>
+
+<% end %>

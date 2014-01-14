@@ -4,19 +4,21 @@ class CoursesController < ApplicationController
 	end 
 
 	def new
-		@new_course = Course.new
+		@name = params[:name]
+		@course = Course.new(name: @name)
 
 		respond_to do |format|
 			format.html
-			format.json { render json: @new_course }
+			format.json { render json: @course }
 		end 
 	end
 
 	def create
-		@new_course = Course.new(params[:new_course])
+		@name = params[:name]
+		@course = Course.new(params[:course])
 
 		respond_to do |format|
-			if @new_course.save
+			if @course.save
 				format.html { redirect_to courses_path }
 			end
 		end 

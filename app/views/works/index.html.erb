@@ -1,0 +1,12 @@
+<h1>All Works for  <%= Course.where(:id => @courseid).first.name %></h1>
+<p><%= link_to 'New Work', new_work_path(:courseid => @courseid) %></p>
+<ul>
+<% @works.each do |work| %>
+	<li><%= work.name %> (<%= work.thetype %>)
+		<ul>
+			<li><%= link_to 'Edit', edit_work_path(:id => work.id) %></li>
+			<li><%= link_to 'Delete', work, method: :delete %></li>
+		</ul>
+	</li>
+<% end %>
+</ul>
