@@ -1,0 +1,19 @@
+<%= form_for(@evaluation) do |f| %>
+
+<%= f.hidden_field :for, :value =>  %>
+
+Grade:
+<%= f.text_field :grade %>
+
+<br />
+<br />
+
+Weight:
+<%= f.text_field :weight %>
+
+<br />
+<br />
+
+<%= f.submit "Submit" %>
+
+<% end %>

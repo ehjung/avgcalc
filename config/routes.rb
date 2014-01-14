@@ -54,4 +54,6 @@ Avgcalc::Application.routes.draw do
   #     resources :products
   #   end
   resources :courses, :works, :evaluations
+
+  root :to => 'courses#index'
 end

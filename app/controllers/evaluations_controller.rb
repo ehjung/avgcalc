@@ -1,44 +1,41 @@
 class EvaluationsController < ApplicationController
 	def new
-		@courseid = params[:courseid]
-		@thetype = params[:thetype]
-		@name = params[:name]
-		@work = Evaluation.new(courseid: @courseid, thetype: @thetype, name: @name)
+		@for = params[:for]
+		@grade = params[:grade]
+		@weight = params[:weight]
+		@evaluation = Evaluation.new(:for => @for, grade: @grade, weight: @weight)
 
 		respond_to do |format|
 			format.html
-			format.json { render json: @work }
+			format.json { render json: @evaluation }
 		end 
 	end
-=begin
+
 	def create
-		@courseid = params[:courseid]
-		@thetype = params[:thetype]
-		@name = params[:name]
-		@work = Work.new(params[:work])
+		@evaluation = Evaluation.new(params[:evaluation])
 
 		respond_to do |format|
-			if @work.save
-				format.html { redirect_to works_path(:courseid => @work.courseid) }
+			if @evaluation.save
+				format.html { redirect_to works_path(:courseid => params[:courseid]) }
 			end
 		end 
 	end 
 
 	def edit
+		@for = params[:id]
 		@courseid = params[:courseid]
-		@work = Work.find(params[:id])
+		@evaluation = Evaluation.find(params[:id])
 	end 
 
 	def update
-		@work = Work.find(params[:id])
-
+		@evaluation = Evaluation.find(params[:id])
 		respond_to do |format|
-			if @work.update_attributes(params[:work])
-				format.html { redirect_to works_path(:courseid => @work.courseid) }
+			if @evaluation.update_attributes(params[:evaluation])
+				format.html { redirect_to works_path(:courseid => params[:courseid]) }
 			end
 		end
 	end 
-
+=begin
 	def destroy
 		@work = Work.find(params[:id])
 

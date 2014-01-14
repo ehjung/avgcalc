@@ -17,9 +17,6 @@ class WorksController < ApplicationController
 	end
 
 	def create
-		@courseid = params[:courseid]
-		@thetype = params[:thetype]
-		@name = params[:name]
 		@work = Work.new(params[:work])
 
 		respond_to do |format|

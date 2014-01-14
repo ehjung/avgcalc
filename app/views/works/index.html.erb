@@ -5,9 +5,9 @@
 	<li><%= work.name %> (<%= work.thetype %>)
 		<ul>
 			<% if Evaluation.where(:for => work.id).exists? %>
-				<li>Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %>
+				<li>Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %> (<%= link_to 'Edit Evaluation', edit_evaluation_path(:id => Evaluation.where(:for => work.id).first.id, :courseid => work.courseid, :for => work.id) %>)
 			<% else %>
-				<li><%= link_to 'Add Grade', new_evaluation_path(:id => work.id, :courseid => work.courseid) %> 
+				<li><%= link_to 'Add Evaluation', new_evaluation_path(:id => work.id, :courseid => work.courseid) %> 
 					<ul>
 						<li><%= link_to 'Edit Work', edit_work_path(:id => work.id, :courseid => work.courseid) %></li>
 						<li><%= link_to 'Delete Work', work, method: :delete %></li>
