@@ -19,22 +19,9 @@ ActiveRecord::Schema.define(version: 20140111171738) do
     t.datetime "updated_at"
   end
 
-  create_table "evaltypes", force: true do |t|
-    t.integer  "courseid"
-    t.string   "type"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "evaluations", force: true do |t|
     t.integer  "grade"
     t.integer  "for"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "grades", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
