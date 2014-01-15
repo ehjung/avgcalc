@@ -28,14 +28,23 @@ describe WorksController do
 	it "PUT update" do
 		new_course = create(:course)
 		new_work = create(:work, courseid: new_course)
-		put :update, id: new_work, work: attributes_for(:work, name: "Test2")
-		response.should redirect_to works_path
+		put :update, id: new_work, courseid: new_course, work: attributes_for(:work, name: "Test2")
+		response.should redirect_to works_path(:courseid => new_course)
 	end 
 
-	it "DELETE destroy" do
+	it "DELETE destroy when there are no evaluations" do
 		new_course = create(:course)
 		new_work = create(:work, courseid: new_course)
-		delete :destroy, id: new_work
-		response.should redirect_to works_path
+		delete :destroy, courseid: new_course, id: new_work
+		response.should redirect_to works_path(:courseid => new_course)
 	end 
+
+	it "DELETE destroy when there are evaluations" do
+		new_course = create(:course)
+		new_work = create(:work, courseid: new_course)
+		new_evaluation = create(:evaluation, :for => new_work)
+		delete :destroy, courseid: new_course, id: new_work
+		response.should redirect_to works_path(:courseid => new_course)
+	end
+ 
 end

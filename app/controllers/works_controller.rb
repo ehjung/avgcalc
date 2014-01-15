@@ -21,7 +21,9 @@ class WorksController < ApplicationController
 
 		respond_to do |format|
 			if @work.save
-				format.html { redirect_to works_path(:courseid => @work.courseid) }
+				format.html { redirect_to works_path(:courseid => @work.courseid), notice: 'Work was created.' }
+			else
+				format.html { redirect_to works_path(:courseid => @work.courseid), notice: 'Work was not created.' }
 			end
 		end 
 	end 
@@ -36,18 +38,46 @@ class WorksController < ApplicationController
 
 		respond_to do |format|
 			if @work.update_attributes(params[:work])
-				format.html { redirect_to works_path(:courseid => @work.courseid) }
+				if @work.courseid.nil?
+					@courseid = params[:courseid]
+				else 
+					@courseid = @work.courseid
+				end 
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Work was updated.' }
+			else
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Work was not updated.' }
 			end
 		end
 	end 
 
 	def destroy
 		@work = Work.find(params[:id])
+		@evaluations = Evaluation.where(:for => @work).all
+
+		if @work.courseid.nil?
+			@courseid = params[:courseid]
+		else 
+			@courseid = @work.courseid
+		end 
+
+		if @work.destroy
+			@notice = 'Work was deleted.'
+		else 
+			@notice = 'Error while deleting work.'
+		end 
+
+		if !(@evaluations.empty?) 
+			@evaluations.each do |evaluation|
+				if evaluation.destroy
+					@notice = 'Work was deleted and its corresponding evaluations.'
+				else 
+					@notice = 'Error while deleting work and its corresponding evaluations.'
+				end 
+			end
+		end
 
 		respond_to do |format|
-			if @work.destroy 
-				format.html { redirect_to works_path }
-			end
+			format.html { redirect_to works_path(:courseid => @courseid), notice: @notice }
 		end
 	end
 

@@ -17,8 +17,14 @@ class EvaluationsController < ApplicationController
 
 		respond_to do |format|
 			if @evaluation.save
-				@courseid = Work.where(:id => @evaluation.for).first.courseid
-				format.html { redirect_to works_path(:courseid => @courseid) }
+				if !(Work.where(:id => @evaluation.for).first.courseid.nil?)
+					@courseid = Work.where(:id => @evaluation.for).first.courseid
+				else
+					@courseid = params[:courseid]
+				end 
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was created.' }
+			else
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was not created.' }
 			end
 		end 
 	end 
@@ -33,8 +39,14 @@ class EvaluationsController < ApplicationController
 		@evaluation = Evaluation.find(params[:id])
 		respond_to do |format|
 			if @evaluation.update_attributes(params[:evaluation])
-				@courseid = Work.where(:id => @evaluation.for).first.courseid
-				format.html { redirect_to works_path(:courseid => @courseid) }
+				if Work.where(:id => @evaluation.for).exists?
+					@courseid = Work.where(:id => @evaluation.for).first.courseid
+				else
+					@courseid = params[:courseid]
+				end 
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was updated.' }
+			else
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was not updated.' }
 			end
 		end
 	end 
@@ -44,9 +56,11 @@ class EvaluationsController < ApplicationController
 
 		respond_to do |format|
 			if @evaluation.destroy 
-				format.html { redirect_to works_path(:courseid => params[:courseid]) }
+				format.html { redirect_to works_path(:courseid => params[:courseid]), notice: 'Evaluation was deleted.' }
+			else
+				format.html { redirect_to works_path(:courseid => params[:courseid]), notice: 'Evaluation was not deleted.' }
 			end
 		end
 	end
- 
+
 end

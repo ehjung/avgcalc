@@ -30,8 +30,23 @@ describe CoursesController do
 		response.should redirect_to courses_path
 	end 
 
-	it "DELETE destroy" do
+	it "DELETE destroy when there is no work" do
 		new_course = create(:course)
+		delete :destroy, id: new_course
+		response.should redirect_to courses_path
+	end 
+
+	it "DELETE destroy when there is work" do
+		new_course = create(:course)
+		new_work = create(:work, courseid: new_course)
+		delete :destroy, id: new_course
+		response.should redirect_to courses_path
+	end 
+
+	it "DELETE destroy when there is work and evaluation" do
+		new_course = create(:course)
+		new_work = create(:work, courseid: new_course)
+		new_evaluation = create(:evaluation, for: new_work)
 		delete :destroy, id: new_course
 		response.should redirect_to courses_path
 	end 

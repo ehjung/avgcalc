@@ -38,5 +38,5 @@ describe EvaluationsController do
 		delete :destroy, id: new_evaluation, courseid: new_course
 		response.should redirect_to works_path(:courseid => new_course)
 	end 
- 
+
 end
