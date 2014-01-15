@@ -30,12 +30,13 @@ describe EvaluationsController do
 		put :update, id: new_evaluation, courseid: new_course, evaluation: attributes_for(:evaluation, grade: 55, weight: 43)
 		response.should redirect_to works_path(:courseid => new_course)
 	end 
-=begin
+
 	it "DELETE destroy" do
 		new_course = create(:course)
 		new_work = create(:work, courseid: new_course)
-		delete :destroy, id: new_work
-		response.should redirect_to works_path
+		new_evaluation = create(:evaluation, :for => new_work)
+		delete :destroy, id: new_evaluation, courseid: new_course
+		response.should redirect_to works_path(:courseid => new_course)
 	end 
-=end 
+ 
 end
