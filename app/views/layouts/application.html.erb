@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Avgcalc</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Avgcalc" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Avgcalc" %>">
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
 
-<div id="navigation"><%= link_to "Home", root_path %></div>
+    <div class="jumbotron">
+	   	<div class="container">
+	   		<h1>Avgcalc</h1>
+	        <p>Calculate your course and overall average.</p>
+	   	</div>
+   </div>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<%= yield %>
-
-</body>
+	<div class="container">
+		<div style="padding-top: 10px">
+			<%= render 'layouts/messages' %>
+		</div>
+		<%= yield %>
+	</div>
+  
+  </body>
 </html>

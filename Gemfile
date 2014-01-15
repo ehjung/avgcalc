@@ -48,6 +48,11 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails', "~> 4.0"

@@ -1,21 +1,27 @@
-<%= form_for(@evaluation) do |f| %>
+<%= form_for @evaluation, :html => {:class => "navbar-form navbar-left"} do |f| %>
 
-<%= f.hidden_field :for %>
+	<%= f.hidden_field :for %>
 
-<%= f.hidden_field :courseid, :value => @courseid %>
+	<%= f.hidden_field :courseid, :value => @courseid %>
 
-Grade:
-<%= f.text_field :grade %>
+	<div class="form-group">
+		<div class="input-group">
+			Grade:
+			<%= f.text_field :grade, :class => "form-control" %>
+		</div>
+		<br />
+		<div class="input-group">
+			Weight:
+			<%= f.text_field :weight, :class => "form-control" %>
+		</div>
+		<br />
+		<div class="input-group">
+			<%= f.submit "Submit", :class => "btn btn-default" %>
+		</div>
+	</div>
 
-<br />
-<br />
-
-Weight:
-<%= f.text_field :weight %>
-
-<br />
-<br />
-
-<%= f.submit "Submit" %>
+	
+		
+	
 
 <% end %>

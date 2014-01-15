@@ -14,6 +14,7 @@ class EvaluationsController < ApplicationController
 
 	def create
 		@evaluation = Evaluation.new(params[:evaluation])
+		@courseid = Work.where(:id => @evaluation.for).first.courseid
 
 		respond_to do |format|
 			if @evaluation.save
@@ -24,19 +25,20 @@ class EvaluationsController < ApplicationController
 				end 
 				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was created.' }
 			else
-				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was not created.' }
+				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not created.' }
 			end
 		end 
 	end 
 
 	def edit
-		@for = params[:id]
+		@for = params[:for]
 		@courseid = params[:courseid]
 		@evaluation = Evaluation.find(params[:id])
 	end 
 
 	def update
 		@evaluation = Evaluation.find(params[:id])
+		@courseid = Work.where(:id => @evaluation.for).first.courseid
 		respond_to do |format|
 			if @evaluation.update_attributes(params[:evaluation])
 				if Work.where(:id => @evaluation.for).exists?
@@ -46,19 +48,20 @@ class EvaluationsController < ApplicationController
 				end 
 				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was updated.' }
 			else
-				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was not updated.' }
+				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not updated.' }
 			end
 		end
 	end 
 
 	def destroy
 		@evaluation = Evaluation.find(params[:id])
+		@courseid = Work.where(:id => @evaluation.for).first.courseid
 
 		respond_to do |format|
 			if @evaluation.destroy 
-				format.html { redirect_to works_path(:courseid => params[:courseid]), notice: 'Evaluation was deleted.' }
+				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was deleted.' }
 			else
-				format.html { redirect_to works_path(:courseid => params[:courseid]), notice: 'Evaluation was not deleted.' }
+				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not deleted.' }
 			end
 		end
 	end

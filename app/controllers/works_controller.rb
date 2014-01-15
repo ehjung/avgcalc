@@ -23,7 +23,7 @@ class WorksController < ApplicationController
 			if @work.save
 				format.html { redirect_to works_path(:courseid => @work.courseid), notice: 'Work was created.' }
 			else
-				format.html { redirect_to works_path(:courseid => @work.courseid), notice: 'Work was not created.' }
+				format.html { redirect_to works_path(:courseid => @work.courseid), alert: 'Work was not created.' }
 			end
 		end 
 	end 
@@ -45,7 +45,7 @@ class WorksController < ApplicationController
 				end 
 				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Work was updated.' }
 			else
-				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Work was not updated.' }
+				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Work was not updated.' }
 			end
 		end
 	end 
@@ -63,7 +63,7 @@ class WorksController < ApplicationController
 		if @work.destroy
 			@notice = 'Work was deleted.'
 		else 
-			@notice = 'Error while deleting work.'
+			@alert = 'Error while deleting work.'
 		end 
 
 		if !(@evaluations.empty?) 
@@ -71,13 +71,13 @@ class WorksController < ApplicationController
 				if evaluation.destroy
 					@notice = 'Work was deleted and its corresponding evaluations.'
 				else 
-					@notice = 'Error while deleting work and its corresponding evaluations.'
+					@alert = 'Error while deleting work and its corresponding evaluations.'
 				end 
 			end
 		end
 
 		respond_to do |format|
-			format.html { redirect_to works_path(:courseid => @courseid), notice: @notice }
+			format.html { redirect_to works_path(:courseid => @courseid), notice: @notice, alert: @alert }
 		end
 	end
 

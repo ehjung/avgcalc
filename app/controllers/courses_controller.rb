@@ -10,6 +10,7 @@ class CoursesController < ApplicationController
 		if @courses.count != 0
 			@overall_average /= @courses.count
 		end
+		@overall_average = @overall_average.round(2)
 	end 
 
 	def new
@@ -30,8 +31,10 @@ class CoursesController < ApplicationController
 		respond_to do |format|
 			if @course.save
 				format.html { redirect_to courses_path, notice: 'Course has been created.' }
+			elsif @course.name.length < 1 || @course.name.length > 200
+				format.html { redirect_to courses_path, alert: 'Course name must be between 1 and 200 characters.' }
 			else
-				format.html { redirect_to courses_path, notice: 'This course already exists.' }
+				format.html { redirect_to courses_path, alert: 'This course already exists.' }
 			end 
 		end 
 	end 
@@ -46,8 +49,10 @@ class CoursesController < ApplicationController
 		respond_to do |format|
 			if @course.update_attributes(params[:course])
 				format.html { redirect_to courses_path, notice: 'Course has been updated.' }
+			elsif @course.name.length < 1 || @course.name.length > 200
+				format.html { redirect_to courses_path, alert: 'Course name must be between 1 and 200 characters.' }
 			else
-				format.html { redirect_to courses_path, notice: 'This course already exists.' }
+				format.html { redirect_to courses_path, alert: 'This course already exists.' }
 			end 
 		end
 	end 
@@ -59,7 +64,7 @@ class CoursesController < ApplicationController
 		if @course.destroy
 			@notice = 'Course has been deleted.'
 		else 
-			@notice = 'Error while deleting course.'
+			@alert = 'Error while deleting course.'
 		end
 
 		@works.each do |work|
@@ -67,20 +72,20 @@ class CoursesController < ApplicationController
 			if work.destroy
 				@notice = 'Course and its work have been deleted.'
 			else
-				@notice = 'Error while deleting course and its corresponding work.'
+				@alert = 'Error while deleting course and its corresponding work.'
 			end 
 			@evaluations.each do |evaluation|
 				if evaluation.destroy
 					@notice = 'Course and its work and evaluations has been deleted.'
 				else
-					@notice = 'Error while deleting course and its corresponding work and evaluations.'
+					@alert = 'Error while deleting course and its corresponding work and evaluations.'
 				end 
 			end
 		end
 
 		
 		respond_to do |format|
-			format.html { redirect_to courses_path, notice: @notice }
+			format.html { redirect_to courses_path, notice: @notice, alert: @alert }
 		end
 	end
 

@@ -1,7 +1,9 @@
-<%= form_for(@course) do |f| %>
+<%= form_for @course, :html => {:class => "navbar-form navbar-left"} do |f| %>
 
-<%= f.text_field :name %>
+	 <div class="form-group">
+		<%= f.text_field :name , :class => "form-control" %>
+	</div>
 
-<%= f.submit "Submit" %>
+	<%= f.submit "Submit", :class => "btn btn-default" %>
 
 <% end %>

@@ -1,19 +1,37 @@
-<h1>All Works for  <%= Course.where(:id => @courseid).first.name %></h1>
-<p><%= link_to 'New Work', new_work_path(:courseid => @courseid) %></p>
-<ul>
+<div style="float: left; height: 100%;">
+	<h1>All Works for  <%= Course.where(:id => @courseid).first.name %></h1>
+</div>
+<div style="float: right; height: 100%;">
+	<a href="<%= new_work_path(:courseid => @courseid) %>" class="btn btn-default btn-lg">
+	  <span class="glyphicon glyphicon-plus"></span> 
+	</a>
+</div>
+<div style="clear: both"></div>
 
 <% @works.each do |work| %>
-	<li><%= work.name %> (<%= work.thetype %>) 
-		<ul>
-			<% if Evaluation.where(:for => work.id).exists? %>
-				<li>Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %> (<%= link_to 'Edit Evaluation', edit_evaluation_path(:id => Evaluation.where(:for => work.id).first.id, :courseid => work.courseid, :for => work.id) %>)
-			<% else %>
-				<li><%= link_to 'Add Evaluation', new_evaluation_path(:id => work.id, :courseid => work.courseid) %>
-				</li>
-			<% end %>
-				<li><%= link_to 'Edit Work', edit_work_path(:id => work.id, :courseid => work.courseid) %></li>
-				<li><%= link_to 'Delete Work', work, method: :delete %></li>
-		</ul>
-	</li>
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<div style="float: left; height: 100%;"><%= work.name %> (<%= work.thetype %>)</div>
+	    	<% if Evaluation.where(:for => work.id).exists? %>
+	    		<div style="float: right; height: 100%;">Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %></div>
+	    	<% end %>
+	    	<div style="clear: both"></div>
+	    </h3>
+	  </div>
+	  <div class="panel-body">
+	  	<% if Evaluation.where(:for => work.id).exists? %>
+	  	<div class="btn-group">
+	  		<%= link_to 'Edit Evaluation', edit_evaluation_path(:id => Evaluation.where(:for => work.id).first.id, :courseid => work.courseid, :for => work.id), :class => "btn btn-default"  %>
+	  		<%= link_to 'Delete Evaluation', Evaluation.where(:for => work.id).first, method: :delete, :class => "btn btn-default" %>
+	  	<% else %>
+	    <div class="btn-group">
+	    	<%= link_to 'Add Evaluation', new_evaluation_path(:id => work.id, :courseid => work.courseid), :class => "btn btn-default" %>
+	    <% end %>
+			<%= link_to 'Edit Work', edit_work_path(:id => work.id, :courseid => work.courseid), :class => "btn btn-default" %>
+			<%= link_to 'Delete Work', work, method: :delete, :class => "btn btn-default" %>
+		</div>
+	  </div>
+	</div>
+
 <% end %>
-</ul>
