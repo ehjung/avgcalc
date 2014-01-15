@@ -1,8 +1,10 @@
 <h1>All Courses</h1>
 <p><%= link_to 'New Course', new_course_path %></p>
+<p>Overall Average: <%= @overall_average %></p>
 <ul>
+
 <% @courses.each do |course| %>
-	<li><%= course.name %>
+	<li><%= course.name %> -- Average: <%= course.average %>
 		<ul>
 			<li><%= link_to 'Edit', edit_course_path(:id => course.id) %></li>
 			<li><%= link_to 'Delete', course, method: :delete %></li>

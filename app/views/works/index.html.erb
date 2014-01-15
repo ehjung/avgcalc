@@ -1,8 +1,9 @@
 <h1>All Works for  <%= Course.where(:id => @courseid).first.name %></h1>
 <p><%= link_to 'New Work', new_work_path(:courseid => @courseid) %></p>
 <ul>
+
 <% @works.each do |work| %>
-	<li><%= work.name %> (<%= work.thetype %>)
+	<li><%= work.name %> (<%= work.thetype %>) 
 		<ul>
 			<% if Evaluation.where(:for => work.id).exists? %>
 				<li>Grade: <%= Evaluation.where(:for => work.id).first.grade %> - Weight: <%= Evaluation.where(:for => work.id).first.weight %> (<%= link_to 'Edit Evaluation', edit_evaluation_path(:id => Evaluation.where(:for => work.id).first.id, :courseid => work.courseid, :for => work.id) %>)

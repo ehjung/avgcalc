@@ -1,11 +1,21 @@
 class CoursesController < ApplicationController
 	def index
 		@courses = Course.all
+		@overall_average = 0
+		@courses.each do |course|
+			average = computeAverage(course.id)
+			course.update_attributes(:average => average)
+			@overall_average += average
+		end
+		if @courses.count != 0
+			@overall_average /= @courses.count
+		end
 	end 
 
 	def new
 		@name = params[:name]
-		@course = Course.new(name: @name)
+		@average = params[:average]
+		@course = Course.new(name: @name, average: 0)
 
 		respond_to do |format|
 			format.html

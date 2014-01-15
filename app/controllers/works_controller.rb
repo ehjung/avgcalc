@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
 	def index
 		@courseid = params[:courseid]
-		@works = Work.where(:courseid => @courseid).all
+		@works = Work.where(:courseid => @courseid).all 
 	end
 
 	def new
