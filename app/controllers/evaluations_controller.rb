@@ -17,15 +17,19 @@ class EvaluationsController < ApplicationController
 		@courseid = Work.where(:id => @evaluation.for).first.courseid
 
 		respond_to do |format|
-			if @evaluation.save
-				if !(Work.where(:id => @evaluation.for).first.courseid.nil?)
-					@courseid = Work.where(:id => @evaluation.for).first.courseid
-				else
-					@courseid = params[:courseid]
-				end 
-				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was created.' }
+			if !validWeight(@courseid, @evaluation.weight)
+				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Weights do not add up to 100%.' }
 			else
-				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not created.' }
+				if @evaluation.save
+					if !(Work.where(:id => @evaluation.for).first.courseid.nil?)
+						@courseid = Work.where(:id => @evaluation.for).first.courseid
+					else
+						@courseid = params[:courseid]
+					end 
+					format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was created.' }
+				else
+					format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not created.' }
+				end
 			end
 		end 
 	end 
@@ -38,14 +42,14 @@ class EvaluationsController < ApplicationController
 
 	def update
 		@evaluation = Evaluation.find(params[:id])
-		@courseid = Work.where(:id => @evaluation.for).first.courseid
+		if Work.where(:id => @evaluation.for).exists?
+			@courseid = Work.where(:id => @evaluation.for).first.courseid
+		else
+			@courseid = params[:courseid]
+		end 
 		respond_to do |format|
 			if @evaluation.update_attributes(params[:evaluation])
-				if Work.where(:id => @evaluation.for).exists?
-					@courseid = Work.where(:id => @evaluation.for).first.courseid
-				else
-					@courseid = params[:courseid]
-				end 
+				
 				format.html { redirect_to works_path(:courseid => @courseid), notice: 'Evaluation was updated.' }
 			else
 				format.html { redirect_to works_path(:courseid => @courseid), alert: 'Evaluation was not updated.' }
@@ -55,7 +59,11 @@ class EvaluationsController < ApplicationController
 
 	def destroy
 		@evaluation = Evaluation.find(params[:id])
-		@courseid = Work.where(:id => @evaluation.for).first.courseid
+		if Work.where(:id => @evaluation.for).exists?
+			@courseid = Work.where(:id => @evaluation.for).first.courseid
+		else
+			@courseid = params[:courseid]
+		end 
 
 		respond_to do |format|
 			if @evaluation.destroy 
