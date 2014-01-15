@@ -13,10 +13,18 @@ describe CoursesController do
 		response.should render_template(:new)
 	end 
 
-	it "POST create" do
+	# TODO:
+	it "POST create without an account" do
 		post :create, course: attributes_for(:course)
 		response.should redirect_to courses_path
 	end
+
+=begin
+	it "POST create with an account" do
+		post :create, course: attributes_for(:course, userid: :user)
+		response.should redirect_to courses_path
+	end
+=end 
 
 	it "GET edit" do
 		new_course = create(:course)
