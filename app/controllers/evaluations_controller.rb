@@ -1,6 +1,7 @@
 class EvaluationsController < ApplicationController
 	def new
-		@for = params[:for]
+		@courseid = params[:courseid]
+		@for = params[:id]
 		@grade = params[:grade]
 		@weight = params[:weight]
 		@evaluation = Evaluation.new(:for => @for, grade: @grade, weight: @weight)
@@ -16,7 +17,8 @@ class EvaluationsController < ApplicationController
 
 		respond_to do |format|
 			if @evaluation.save
-				format.html { redirect_to works_path(:courseid => params[:courseid]) }
+				@courseid = Work.where(:id => @evaluation.for).first.courseid
+				format.html { redirect_to works_path(:courseid => @courseid) }
 			end
 		end 
 	end 
@@ -31,7 +33,8 @@ class EvaluationsController < ApplicationController
 		@evaluation = Evaluation.find(params[:id])
 		respond_to do |format|
 			if @evaluation.update_attributes(params[:evaluation])
-				format.html { redirect_to works_path(:courseid => params[:courseid]) }
+				@courseid = Work.where(:id => @evaluation.for).first.courseid
+				format.html { redirect_to works_path(:courseid => @courseid) }
 			end
 		end
 	end 
