@@ -38,15 +38,15 @@ class EvaluationsController < ApplicationController
 			end
 		end
 	end 
-=begin
+
 	def destroy
-		@work = Work.find(params[:id])
+		@evaluation = Evaluation.find(params[:id])
 
 		respond_to do |format|
-			if @work.destroy 
-				format.html { redirect_to works_path }
+			if @evaluation.destroy 
+				format.html { redirect_to works_path(:courseid => params[:courseid]) }
 			end
 		end
 	end
-=end 
+ 
 end
