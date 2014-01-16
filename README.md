@@ -1,4 +1,6 @@
 avgcalc
 =======
 
-Calculates the average given a series of numbers.
+Calculates the overall and course average given marks and weights.
+
+![image](screenshot.png)
