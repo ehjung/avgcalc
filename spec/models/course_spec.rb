@@ -6,9 +6,10 @@ describe Course do
   	build(:course).should have(1).error_on :userid
   end
 
-  it "should not create duplicate courses" do
-  	create(:course).should have(0).error_on :name
-  	build(:course).should have(1).error_on :name
+  it "should not create duplicate courses with same account" do
+  	new_user = create(:user)
+  	create(:course, userid: new_user.id).should have(0).error_on(:name)
+  	build(:course, userid: new_user.id).should have(1).error_on(:name)
   end 
 
 end

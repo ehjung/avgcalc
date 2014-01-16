@@ -33,6 +33,8 @@ class CoursesController < ApplicationController
 				format.html { redirect_to courses_path, notice: 'Course has been created.' }
 			elsif @course.name.length < 1 || @course.name.length > 200
 				format.html { redirect_to courses_path, alert: 'Course name must be between 1 and 200 characters.' }
+			elsif @course.userid.nil?
+				format.html { redirect_to courses_path, alert: 'Cannot create a course without an account.' }
 			else
 				format.html { redirect_to courses_path, alert: 'This course already exists.' }
 			end 

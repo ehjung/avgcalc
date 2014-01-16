@@ -14,8 +14,8 @@ class Course < ActiveRecord::Base
    end
 
    def userid_exists
-   	if (!User.where(:id => userid).exists?) || !signed_in? 
-   		errors[:userid] << "cannot be created without valid account"
+   	if (!User.where(:id => userid).exists?)
+   		errors[:userid] << "does not exist"
    	else
    		return
    	end

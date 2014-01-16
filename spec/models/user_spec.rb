@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  #pending "add some examples to (or delete) #{__FILE__}"
+  it "creates new user" do
+  	create(:user).should have(0).errors_on(:id)
+  end
 end
