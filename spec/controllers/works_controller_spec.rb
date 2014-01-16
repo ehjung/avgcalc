@@ -1,13 +1,20 @@
 require 'spec_helper'
+include Devise::TestHelpers
 
 describe WorksController do
 
 	it "GET index" do 
-		get :index
+		new_user = create :user
+		sign_in new_user
+		new_course = create(:course, userid: new_user.id)
+		get :index, :courseid => new_course
 		response.should render_template(:index)
 	end
 
 	it "GET new" do 
+		new_user = create :user
+		sign_in new_user
+		new_course = create(:course, userid: new_user.id)
 		get :new
 		assigns(:work)
 		response.should render_template(:new)
@@ -21,10 +28,11 @@ describe WorksController do
 	end
 
 	it "GET edit" do
-		new_user = create(:user)
+		new_user = create :user
+		sign_in new_user
 		new_course = create(:course, userid: new_user.id)
 		new_work = create(:work, courseid: new_course)
-		get :edit, {id: new_work}
+		get :edit, {id: new_work, userid: new_user.id, courseid: new_course}
 		response.should render_template(:edit)
 	end 
 

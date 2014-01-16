@@ -1,7 +1,13 @@
 class WorksController < ApplicationController
+	before_filter :authenticate_user!, :except => [:create, :update, :destroy]
 	def index
 		@courseid = params[:courseid]
-		@works = Work.where(:courseid => @courseid).all 
+		if Course.where(:id => @courseid, :userid => current_user.id).exists?
+			@works = Work.where(:courseid => @courseid).all 
+		else 
+			redirect_to courses_path
+			flash[:alert] = 'Page not found.'
+		end
 	end
 
 	def new
@@ -31,6 +37,11 @@ class WorksController < ApplicationController
 	def edit
 		@courseid = params[:courseid]
 		@work = Work.find(params[:id])
+
+		if !(Course.where(:id => @courseid).exists? && (Course.where(:id => @courseid).first.userid == current_user.id))
+			redirect_to courses_path
+			flash[:alert] = 'This page does not exist.'
+		end
 	end 
 
 	def update

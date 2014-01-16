@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
+	before_filter :authenticate_user!, :except =>[:create, :update, :destroy]
 	def index
-		@courses = Course.all
+		@courses = Course.where(:userid => current_user.id).all
 		@overall_average = 0
 		@courses.each do |course|
 			average = computeAverage(course.id)
@@ -16,7 +17,8 @@ class CoursesController < ApplicationController
 	def new
 		@name = params[:name]
 		@average = params[:average]
-		@course = Course.new(name: @name, average: 0)
+		@userid = params[:userid]
+		@course = Course.new(name: @name, average: @average, userid: @userid)
 
 		respond_to do |format|
 			format.html
@@ -43,6 +45,11 @@ class CoursesController < ApplicationController
 
 	def edit
 		@course = Course.find(params[:id])
+
+		if !(@course.userid == current_user.id)
+			redirect_to courses_path
+			flash[:alert] = 'This page does not exist.'
+		end
 	end 
 
 	def update

@@ -45,6 +45,8 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
+gem 'protected_attributes'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 

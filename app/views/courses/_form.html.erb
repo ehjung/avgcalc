@@ -1,5 +1,7 @@
 <%= form_for @course, :html => {:class => "navbar-form navbar-left"} do |f| %>
 
+	<%= f.hidden_field :userid, :value => current_user.id  %>
+
 	 <div class="form-group">
 		<%= f.text_field :name , :class => "form-control" %>
 	</div>

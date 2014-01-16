@@ -1,4 +1,5 @@
 class EvaluationsController < ApplicationController
+	before_filter :authenticate_user!, :except => [:create, :update, :destroy]
 	def new
 		@courseid = params[:courseid]
 		@for = params[:id]
@@ -6,10 +7,15 @@ class EvaluationsController < ApplicationController
 		@weight = params[:weight]
 		@evaluation = Evaluation.new(:for => @for, grade: @grade, weight: @weight)
 
-		respond_to do |format|
-			format.html
-			format.json { render json: @evaluation }
-		end 
+		if !(Course.where(:id => @courseid).first.userid == current_user.id)
+			redirect_to courses_path
+			flash[:alert] = 'This page does not exist.'
+		else
+			respond_to do |format|
+				format.html
+				format.json { render json: @evaluation }
+			end 
+		end
 	end
 
 	def create
@@ -38,6 +44,11 @@ class EvaluationsController < ApplicationController
 		@for = params[:for]
 		@courseid = params[:courseid]
 		@evaluation = Evaluation.find(params[:id])
+
+		if !(Course.where(:id => @courseid).first.userid == current_user.id)
+			redirect_to courses_path
+			flash[:alert] = 'This page does not exist.'
+		end
 	end 
 
 	def update
